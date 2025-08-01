@@ -27,9 +27,13 @@ export default function Todo() {
         type='text'
         value={task}
         onChange={(e) => setTask(e.target.value)}
+        onKeyDown={(e) => {
+        if (e.key === 'Enter') handleAdd();
+       }}
         placeholder='Add a task'
       />
       <button onClick={handleAdd}>Add</button>
+      
       <ul style= {{backgroundColor : '#000000' , margin : '0 auto', textAlign : 'center', maxWidth: '300px',  justifyContent: 'space-between'}}>
        {todos.map((todo, index) => (
         <li key={index} className='todo-item'>
