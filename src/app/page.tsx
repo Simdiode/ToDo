@@ -3,7 +3,7 @@ import { Roboto } from 'next/font/google';
 import React from 'react'
 import { useState } from 'react'
 
-export default function todo() {
+export default function Todo() {
   const [task, setTask] = useState('');
   const [todos, setTodos] = useState<string[]>([]);
   
@@ -21,7 +21,7 @@ export default function todo() {
   };
 
   return (
-    <main style={{font : 'Roboto' , textAlign : 'center' , fontSize : '20px' , margin : '30px'}}>
+    <main style={{ textAlign : 'center' , fontSize : '20px' , margin : '30px'}}>
       <div><h1 style={{fontSize : '30px' , fontWeight : 'bold' }}>Todo List</h1>
       <input style={{margin : '20px'}}
         type='text'
