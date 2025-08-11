@@ -206,7 +206,7 @@ export default function Todo() {
   );
 }
 
-export function ModeToggle() {
+ function ModeToggle() {
   const { setTheme } = useTheme();
   return (
     <DropdownMenu>

@@ -4,13 +4,10 @@ import * as React from 'react';
 import { motion, type Transition } from 'motion/react';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/animate-ui/radix/checkbox';
-import { Button } from '@/components/ui/button';
-import { Trash2 } from 'lucide-react';
 export interface checkboxItem {
   id: number;
   label: string;
   defaultChecked: boolean;
-  isChecked: boolean;
 }
 
 
@@ -27,42 +24,32 @@ const getPathTransition = (isChecked: boolean): Transition => ({
   },
 });
 
-function PlayfulTodolist({
-  checkboxItems,
-  onDelete,
-  onCheckChange
-}: {
-  checkboxItems: checkboxItem[];
-  onDelete: (id: number) => void;
-  onCheckChange: (id: number, isChecked: boolean) => void;
-}) {
+function PlayfulTodolist({checkboxItems}: { checkboxItems: CheckboxItem[] }) {
   const [checked, setChecked] = React.useState(
-    checkboxItems.map((i) => i.isChecked),
+    checkboxItems.map((i) => !!i.defaultChecked),
   );
 
   return (
     <div className="bg-neutral-100 dark:bg-neutral-900 rounded-2xl p-6 space-y-6">
       {checkboxItems.map((item, idx) => (
         <div key={item.id} className="space-y-6">
-          <div className="flex items-center justify-between space-x-2">
-            <div className="flex items-center space-x-2 flex-grow">
-              <Checkbox
-                checked={checked[idx]}
-                onCheckedChange={(val) => {
-                  const updated = [...checked];
-                  updated[idx] = val === true;
-                  setChecked(updated);
-                  onCheckChange(item.id, val === true);
-                }}
-                id={`checkbox-${item.id}`}
-              />
-              <div className="relative inline-block flex-grow">
-                <Label htmlFor={`checkbox-${item.id}`}>{item.label}</Label>
-                <motion.svg
-                  width="340"
-                  height="32"
-                  viewBox="0 0 340 32"
-                  className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-none z-20 w-full h-10"
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              checked={checked[idx]}
+              onCheckedChange={(val) => {
+                const updated = [...checked];
+                updated[idx] = val === true;
+                setChecked(updated);
+              }}
+              id={`checkbox-${item.id}`}
+            />
+            <div className="relative inline-block">
+              <Label htmlFor={`checkbox-${item.id}`}>{item.label}</Label>
+              <motion.svg
+                width="340"
+                height="32"
+                viewBox="0 0 340 32"
+                className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-none z-20 w-full h-10"
               >
                 <motion.path
                   d="M 10 16.91 s 79.8 -11.36 98.1 -11.34 c 22.2 0.02 -47.82 14.25 -33.39 22.02 c 12.61 6.77 124.18 -27.98 133.31 -17.28 c 7.52 8.38 -26.8 20.02 4.61 22.05 c 24.55 1.93 113.37 -20.36 113.37 -20.36"
@@ -77,22 +64,7 @@ function PlayfulTodolist({
                   className="stroke-neutral-900 dark:stroke-neutral-100"
                 />
               </motion.svg>
-              </div>
             </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => onDelete(item.id)}
-              className="h-8 w-8 text-muted-foreground hover:text-destructive transition-colors"
-            >
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              >
-                <Trash2 className="h-4 w-4" />
-              </motion.div>
-            </Button>
           </div>
           {idx !== checkboxItems.length - 1 && (
             <div className="border-t border-neutral-300 dark:border-neutral-700" />
